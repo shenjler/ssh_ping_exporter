@@ -11,7 +11,7 @@ import (
 	"github.com/prometheus/common/log"
 )
 
-const prefix = "cisco_"
+const prefix = "pccw_"
 
 var (
 	scrapeCollectorDurationDesc *prometheus.Desc
@@ -28,12 +28,14 @@ func init() {
 type ciscoCollector struct {
 	devices    []*connector.Device
 	collectors *collectors
+	dest       string
 }
 
-func newCiscoCollector(devices []*connector.Device) *ciscoCollector {
+func newCiscoCollector(devices []*connector.Device, dest string) *ciscoCollector {
 	return &ciscoCollector{
 		devices:    devices,
 		collectors: collectorsForDevices(devices, cfg),
+		dest:       dest,
 	}
 }
 

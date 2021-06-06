@@ -37,6 +37,7 @@ var (
 	configFile         = flag.String("config.file", "", "Path to config file")
 	devices            []*connector.Device
 	cfg                *config.Config
+	dest               = flag.String("ssh.ping-dest", "baidu.com", "The target ip or domain to Ping")
 )
 
 func init() {
@@ -118,22 +119,22 @@ func loadConfigFromFlags() *config.Config {
 }
 
 func printVersion() {
-	fmt.Println("cisco_exporter")
+	fmt.Println("ssh_ping_exporter")
 	fmt.Printf("Version: %s\n", version)
-	fmt.Println("Author(s): Martin Poppen")
-	fmt.Println("Metric exporter for switches and routers running cisco IOS/NX-OS/IOS-XE")
+	fmt.Println("Author(s): shenjl")
+	fmt.Println("Metric exporter for switches and routers running huawei、linux、cisco IOS/NX-OS/IOS-XE")
 }
 
 func startServer() {
-	log.Infof("Starting Cisco exporter (Version: %s)\n", version)
+	log.Infof("Starting SSH ping exporter (Version: %s)\n", version)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
-			<head><title>Cisco Exporter (Version ` + version + `)</title></head>
+			<head><title>SSH ping Exporter (Version ` + version + `)</title></head>
 			<body>
 			<h1>Cisco Exporter</h1>
 			<p><a href="` + *metricsPath + `">Metrics</a></p>
 			<h2>More information:</h2>
-			<p><a href="https://github.com/lwlcom/cisco_exporter">github.com/lwlcom/cisco_exporter</a></p>
+			<p><a href="https://github.com/shenjler/ssh_ping_exporter">github.com/shenjler/ssh_ping_exporter</a></p>
 			</body>
 			</html>`))
 	})
@@ -144,9 +145,14 @@ func startServer() {
 }
 
 func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
+
+	pingDest := r.URL.Query().Get("dest")
+	if pingDest == "" {
+		pingDest = *dest
+	}
 	reg := prometheus.NewRegistry()
 
-	c := newCiscoCollector(devices)
+	c := newCiscoCollector(devices, pingDest)
 	reg.MustRegister(c)
 
 	promhttp.HandlerFor(reg, promhttp.HandlerOpts{

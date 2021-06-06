@@ -35,6 +35,7 @@ type DeviceConfig struct {
 
 // FeatureConfig is the list of collectors enabled or disabled
 type FeatureConfig struct {
+	Icmp        *bool `yaml:"icmp,omitempty"`
 	BGP         *bool `yaml:"bgp,omitempty"`
 	Environment *bool `yaml:"environment,omitempty"`
 	Facts       *bool `yaml:"facts,omitempty"`
@@ -69,6 +70,9 @@ func Load(reader io.Reader) (*Config, error) {
 		if d.Features == nil {
 			continue
 		}
+		if d.Features.Icmp == nil {
+			d.Features.Icmp = c.Features.Icmp
+		}
 		if d.Features.BGP == nil {
 			d.Features.BGP = c.Features.BGP
 		}
@@ -96,6 +100,8 @@ func (c *Config) setDefaultValues() {
 	c.BatchSize = 10000
 
 	f := c.Features
+	icmp := true
+	f.Icmp = &icmp
 	bgp := true
 	f.BGP = &bgp
 	environment := true

@@ -1,14 +1,10 @@
 package main
 
 import (
-	"github.com/lwlcom/cisco_exporter/bgp"
 	"github.com/lwlcom/cisco_exporter/collector"
 	"github.com/lwlcom/cisco_exporter/config"
 	"github.com/lwlcom/cisco_exporter/connector"
-	"github.com/lwlcom/cisco_exporter/environment"
-	"github.com/lwlcom/cisco_exporter/facts"
-	"github.com/lwlcom/cisco_exporter/interfaces"
-	"github.com/lwlcom/cisco_exporter/optics"
+	"github.com/shenjler/ssh_ping_exporter/icmp"
 )
 
 type collectors struct {
@@ -35,11 +31,13 @@ func (c *collectors) initCollectorsForDevice(device *connector.Device) {
 	f := c.cfg.FeaturesForDevice(device.Host)
 
 	c.devices[device.Host] = make([]collector.RPCCollector, 0)
-	c.addCollectorIfEnabledForDevice(device, "bgp", f.BGP, bgp.NewCollector)
-	c.addCollectorIfEnabledForDevice(device, "environment", f.Environment, environment.NewCollector)
-	c.addCollectorIfEnabledForDevice(device, "facts", f.Facts, facts.NewCollector)
-	c.addCollectorIfEnabledForDevice(device, "interfaces", f.Interfaces, interfaces.NewCollector)
-	c.addCollectorIfEnabledForDevice(device, "optics", f.Optics, optics.NewCollector)
+	c.addCollectorIfEnabledForDevice(device, "icmp", f.Icmp, icmp.NewCollector)
+
+	// c.addCollectorIfEnabledForDevice(device, "bgp", f.BGP, bgp.NewCollector)
+	// c.addCollectorIfEnabledForDevice(device, "environment", f.Environment, environment.NewCollector)
+	// c.addCollectorIfEnabledForDevice(device, "facts", f.Facts, facts.NewCollector)
+	// c.addCollectorIfEnabledForDevice(device, "interfaces", f.Interfaces, interfaces.NewCollector)
+	// c.addCollectorIfEnabledForDevice(device, "optics", f.Optics, optics.NewCollector)
 
 }
 
