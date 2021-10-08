@@ -41,7 +41,7 @@ func (c *collectors) initCollectorsForDevice(device *connector.Device) {
 
 }
 
-func (c *collectors) addCollectorIfEnabledForDevice(device *connector.Device, key string, enabled *bool, newCollector func() collector.RPCCollector, dest string) {
+func (c *collectors) addCollectorIfEnabledForDevice(device *connector.Device, key string, enabled *bool, newCollector func() collector.RPCCollector) {
 	if !*enabled {
 		return
 	}
