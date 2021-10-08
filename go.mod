@@ -1,4 +1,4 @@
-module github.com/lwlcom/cisco_exporter
+module github.com/shenjler/ssh_ping_exporter
 
 go 1.16
 
