@@ -31,7 +31,7 @@ optics | Optical signals (tx/rx) | NX-OS/IOS XE/IOS
 
 ## Install
 ```bash
-go get -u github.com/lwlcom/cisco_exporter
+go get -u github.com/shenjler/ssh_ping_exporter
 ```
 
 ## Usage

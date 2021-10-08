@@ -9,8 +9,8 @@ import (
 
 	"time"
 
-	"github.com/lwlcom/cisco_exporter/config"
 	"github.com/pkg/errors"
+	"github.com/shenjler/ssh_ping_exporter/config"
 	"golang.org/x/crypto/ssh"
 )
 

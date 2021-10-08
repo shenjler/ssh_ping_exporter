@@ -3,10 +3,10 @@ package environment
 import (
 	"log"
 
-	"github.com/lwlcom/cisco_exporter/rpc"
+	"github.com/shenjler/ssh_ping_exporter/rpc"
 
-	"github.com/lwlcom/cisco_exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/shenjler/ssh_ping_exporter/collector"
 )
 
 const prefix string = "cisco_environment_"

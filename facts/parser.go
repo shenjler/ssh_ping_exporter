@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lwlcom/cisco_exporter/rpc"
-	"github.com/lwlcom/cisco_exporter/util"
+	"github.com/shenjler/ssh_ping_exporter/rpc"
+	"github.com/shenjler/ssh_ping_exporter/util"
 )
 
 // ParseVersion parses cli output and tries to find the version number of the running OS

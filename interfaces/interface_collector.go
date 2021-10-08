@@ -3,26 +3,26 @@ package interfaces
 import (
 	"log"
 
-	"github.com/lwlcom/cisco_exporter/rpc"
+	"github.com/shenjler/ssh_ping_exporter/rpc"
 
-	"github.com/lwlcom/cisco_exporter/collector"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/shenjler/ssh_ping_exporter/collector"
 )
 
 const prefix string = "cisco_interface_"
 
 var (
-	receiveBytesDesc       *prometheus.Desc
-	receiveErrorsDesc      *prometheus.Desc
-	receiveDropsDesc       *prometheus.Desc
-	receiveBroadcastDesc   *prometheus.Desc
-	receiveMulticastDesc   *prometheus.Desc
-	transmitBytesDesc      *prometheus.Desc
-	transmitErrorsDesc     *prometheus.Desc
-	transmitDropsDesc      *prometheus.Desc
-	adminStatusDesc        *prometheus.Desc
-	operStatusDesc         *prometheus.Desc
-	errorStatusDesc        *prometheus.Desc
+	receiveBytesDesc     *prometheus.Desc
+	receiveErrorsDesc    *prometheus.Desc
+	receiveDropsDesc     *prometheus.Desc
+	receiveBroadcastDesc *prometheus.Desc
+	receiveMulticastDesc *prometheus.Desc
+	transmitBytesDesc    *prometheus.Desc
+	transmitErrorsDesc   *prometheus.Desc
+	transmitDropsDesc    *prometheus.Desc
+	adminStatusDesc      *prometheus.Desc
+	operStatusDesc       *prometheus.Desc
+	errorStatusDesc      *prometheus.Desc
 )
 
 func init() {

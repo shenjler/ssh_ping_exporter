@@ -7,7 +7,7 @@ import (
 
 	"log"
 
-	"github.com/lwlcom/cisco_exporter/connector"
+	"github.com/shenjler/ssh_ping_exporter/connector"
 )
 
 const (

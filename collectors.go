@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/lwlcom/cisco_exporter/collector"
-	"github.com/lwlcom/cisco_exporter/config"
-	"github.com/lwlcom/cisco_exporter/connector"
+	"github.com/shenjler/ssh_ping_exporter/collector"
+	"github.com/shenjler/ssh_ping_exporter/config"
+	"github.com/shenjler/ssh_ping_exporter/connector"
 	"github.com/shenjler/ssh_ping_exporter/icmp"
 )
 

@@ -8,11 +8,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/lwlcom/cisco_exporter/config"
-	"github.com/lwlcom/cisco_exporter/connector"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
+	"github.com/shenjler/ssh_ping_exporter/config"
+	"github.com/shenjler/ssh_ping_exporter/connector"
 )
 
 const version string = "0.2"

@@ -5,10 +5,10 @@ import (
 
 	"sync"
 
-	"github.com/lwlcom/cisco_exporter/connector"
-	"github.com/lwlcom/cisco_exporter/rpc"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/log"
+	"github.com/shenjler/ssh_ping_exporter/connector"
+	"github.com/shenjler/ssh_ping_exporter/rpc"
 )
 
 const prefix = "pccw_"

@@ -3,7 +3,7 @@ package connector
 import (
 	"io"
 
-	"github.com/lwlcom/cisco_exporter/config"
+	"github.com/shenjler/ssh_ping_exporter/config"
 	"golang.org/x/crypto/ssh"
 )
 

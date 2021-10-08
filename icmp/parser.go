@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/lwlcom/cisco_exporter/util"
+	"github.com/shenjler/ssh_ping_exporter/util"
 )
 
 // Parse parses cli output and tries to find interfaces with related stats

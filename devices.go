@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lwlcom/cisco_exporter/config"
-	"github.com/lwlcom/cisco_exporter/connector"
 	"github.com/pkg/errors"
+	"github.com/shenjler/ssh_ping_exporter/config"
+	"github.com/shenjler/ssh_ping_exporter/connector"
 )
 
 func devicesForConfig(cfg *config.Config) ([]*connector.Device, error) {
