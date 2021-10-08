@@ -30,9 +30,9 @@ type icmpCollector struct {
 }
 
 // NewCollector creates a new collector
-func NewCollector(dest string) collector.RPCCollector {
+func NewCollector() collector.RPCCollector {
 	return &icmpCollector{
-		dest: dest,
+		// dest: dest,
 	}
 }
 

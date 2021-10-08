@@ -91,7 +91,8 @@ func (c *ciscoCollector) collectForHost(device *connector.Device, ch chan<- prom
 
 	for _, col := range c.collectors.collectorsForDevice(device) {
 		ct := time.Now()
-		err := col.Collect(client, ch, l)
+		// err := col.Collect(client, ch, l)
+		err := col.CollectByDest(client, ch, l, c.dest)
 
 		if err != nil && err.Error() != "EOF" {
 			log.Errorln(col.Name() + ": " + err.Error())

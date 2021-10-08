@@ -16,4 +16,6 @@ type RPCCollector interface {
 
 	// Collect collects metrics from Cisco
 	Collect(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string) error
+
+	CollectByDest(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string, dest string) error
 }
