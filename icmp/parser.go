@@ -1,19 +1,17 @@
 package icmp
 
 import (
-	"errors"
 	"regexp"
 	"strings"
 
-	"github.com/lwlcom/cisco_exporter/rpc"
 	"github.com/lwlcom/cisco_exporter/util"
 )
 
 // Parse parses cli output and tries to find interfaces with related stats
 func (c *icmpCollector) Parse(ostype string, output string) (Icmp, error) {
-	if ostype != rpc.IOSXE && ostype != rpc.NXOS && ostype != rpc.IOS {
-		return nil, errors.New("'show interface' is not implemented for " + ostype)
-	}
+	// if ostype != rpc.IOSXE && ostype != rpc.NXOS && ostype != rpc.IOS {
+	// 	return nil, errors.New("'show interface' is not implemented for " + ostype)
+	// }
 	targetRegexp := regexp.MustCompile(`^\s*--- (.*) ping statistics ---.*$`)                                                                      // target
 	packetLossRegexp := regexp.MustCompile(`^\s*(?:(?:\d+) packets transmitted, (?:\d+) received, )?((?:[1-9][\d]*|0)(?:\.\d+)?)% packet loss.*$`) // packet loss rate
 	rttRegexp := regexp.MustCompile(`^\s*(?:rtt|round-trip)? min/avg/max(?:/mdev)? = ((?:[1-9][\d]*|0)(?:\.[\d]+)?)/((?:[1-9][\d]*|0)(?:\.[\d]+)?)/((?:[1-9][\d]*|0)(?:\.[\d]+)?)(?:/.*)? ms.*$`)
