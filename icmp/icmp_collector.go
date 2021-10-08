@@ -26,14 +26,12 @@ func init() {
 }
 
 type icmpCollector struct {
-	dest string
+	// dest string
 }
 
 // NewCollector creates a new collector
 func NewCollector() collector.RPCCollector {
-	return &icmpCollector{
-		// dest: dest,
-	}
+	return &icmpCollector{}
 }
 
 // Name returns the name of the collector
@@ -48,9 +46,13 @@ func (*icmpCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- pingStatusDesc
 }
 
+func (c *icmpCollector) Collect(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string) error {
+	return c.CollectByDest(client, ch, labelValues, "www.baidu.com")
+}
+
 // Collect collects metrics from Cisco
-func (c *icmpCollector) CollectByDest(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string) error {
-	out, err := client.RunCommand("ping -c 5 " + c.dest)
+func (c *icmpCollector) CollectByDest(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string, dest string) error {
+	out, err := client.RunCommand("ping -c 5 " + dest)
 	if err != nil {
 		return err
 	}
