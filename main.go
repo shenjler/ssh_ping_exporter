@@ -153,7 +153,11 @@ func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
 	}
 	reg := prometheus.NewRegistry()
 
-	targets := findDeviceConfig(cfg, target)
+	targets := devices
+	if target != "" {
+		targets = findDeviceConfig(cfg, target)
+	}
+
 	c := newCiscoCollector(targets, pingDest)
 	reg.MustRegister(c)
 
