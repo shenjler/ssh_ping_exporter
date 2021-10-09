@@ -166,12 +166,13 @@ func (c *SSHConnection) readln(ch chan result, cmd string, r io.Reader) {
 		if err != nil {
 			ch <- result{output: "", err: err}
 		}
+		log.Println("--> line: " + string(buf[:n]))
 		loadStr += string(buf[:n])
-		log.Println("--> line: " + loadStr)
 		if strings.Contains(loadStr, cmd) && re.MatchString(loadStr) {
 			break
 		}
 	}
+	log.Println("--> total: " + loadStr)
 	loadStr = strings.Replace(loadStr, "\r", "", -1)
 	ch <- result{output: loadStr, err: nil}
 }
