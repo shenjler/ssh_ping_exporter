@@ -103,6 +103,7 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
+	showLoginTips(c)
 	// c.RunCommand("uname -a")
 	// c.RunCommand("show version")
 	// c.RunCommand("display version")
@@ -114,6 +115,18 @@ func (c *SSHConnection) Connect() error {
 type result struct {
 	output string
 	err    error
+}
+
+func showLoginTips(c *SSHConnection) {
+	buf := bufio.NewReader(c.stdout)
+	outputChan := make(chan result)
+	go func() {
+		c.readln(outputChan, "", buf)
+	}()
+	select {
+	case res := <-outputChan:
+		log.Printf(res.output)
+	}
 }
 
 // RunCommand runs a command against the device
