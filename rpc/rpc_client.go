@@ -58,6 +58,8 @@ func (c *Client) RunCommand(cmd string) (string, error) {
 		log.Printf("Running command on %s: %s\n", c.conn.Host, cmd)
 	}
 	output, err := c.conn.RunCommand(fmt.Sprintf("%s", cmd))
+	log.Printf("output: %s\n", output)
+
 	if err != nil {
 		println(err.Error())
 		return "", err

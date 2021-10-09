@@ -1,7 +1,6 @@
 package icmp
 
 import (
-	"log"
 	"regexp"
 	"strings"
 
@@ -14,7 +13,6 @@ func (c *icmpCollector) Parse(ostype string, output string) (Icmp, error) {
 	// 	return nil, errors.New("'show interface' is not implemented for " + ostype)
 	// }
 
-	log.
 	targetRegexp := regexp.MustCompile(`^\s*--- (.*) ping statistics ---.*$`)                                                                      // target
 	packetLossRegexp := regexp.MustCompile(`^\s*(?:(?:\d+) packets transmitted, (?:\d+) received, )?((?:[1-9][\d]*|0)(?:\.\d+)?)% packet loss.*$`) // packet loss rate
 	rttRegexp := regexp.MustCompile(`^\s*(?:rtt|round-trip)? min/avg/max(?:/mdev)? = ((?:[1-9][\d]*|0)(?:\.[\d]+)?)/((?:[1-9][\d]*|0)(?:\.[\d]+)?)/((?:[1-9][\d]*|0)(?:\.[\d]+)?)(?:/.*)? ms.*$`)
