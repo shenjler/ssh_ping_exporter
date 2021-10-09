@@ -103,7 +103,7 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
-	c.RunCommand("sb_release -a")
+	c.RunCommand("uname -a")
 	c.RunCommand("show version")
 	c.RunCommand("display version")
 	// c.RunCommand("terminal length 0")
@@ -174,7 +174,7 @@ func (c *SSHConnection) readln(ch chan result, cmd string, r io.Reader) {
 			break
 		}
 	}
-	log.Println("--> total: " + loadStr)
+	// log.Println("--> total: " + loadStr)
 	loadStr = strings.Replace(loadStr, "\r", "", -1)
 	ch <- result{output: loadStr, err: nil}
 }
