@@ -92,8 +92,8 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
-	c.RunCommand("")
-	c.RunCommand("terminal length 0")
+	// c.RunCommand("")
+	// c.RunCommand("terminal length 0")
 
 	return nil
 }

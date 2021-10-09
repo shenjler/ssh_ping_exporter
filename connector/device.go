@@ -23,6 +23,7 @@ func AuthByPassword(username, password string) AuthMethod {
 	return func(cfg *ssh.ClientConfig) {
 		cfg.User = username
 		cfg.Auth = append(cfg.Auth, ssh.Password(password))
+		cfg.HostKeyCallback = ssh.InsecureIgnoreHostKey()
 	}
 }
 
