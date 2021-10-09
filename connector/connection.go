@@ -103,8 +103,9 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
-	// c.RunCommand("date")
-	c.RunCommand("ping -c 5 localhost")
+	c.RunCommand("sb_release -a")
+	c.RunCommand("show version")
+	c.RunCommand("display version")
 	// c.RunCommand("terminal length 0")
 
 	return nil
