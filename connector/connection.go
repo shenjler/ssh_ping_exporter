@@ -103,7 +103,7 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
-	c.RunCommand("uname -a")
+	// c.RunCommand("uname -a")
 	// c.RunCommand("show version")
 	// c.RunCommand("display version")
 	// c.RunCommand("terminal length 0")
