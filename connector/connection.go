@@ -166,12 +166,10 @@ func (c *SSHConnection) readln(ch chan result, cmd string, r io.Reader) {
 		if err != nil {
 			ch <- result{output: "", err: err}
 		}
-		if n == 0 {
-			break
-		}
-		log.Println("--> n=%d line: "+string(buf[:n]), n)
+		log.Printf("--> n=%s line: "+string(buf[:n]), n)
 		loadStr += string(buf[:n])
-		if strings.Contains(loadStr, cmd) && re.MatchString(loadStr) {
+		if re.MatchString(loadStr) {
+			// if strings.Contains(loadStr, cmd) && re.MatchString(loadStr) {
 			break
 		}
 	}
