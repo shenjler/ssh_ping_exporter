@@ -83,7 +83,8 @@ func (c *SSHConnection) Connect() error {
 		c.client.Conn.Close()
 		return err
 	}
-
+	c.stdin, _ = session.StdinPipe()
+	c.stdout, _ = session.StdoutPipe()
 	// modes := ssh.TerminalModes{
 	// 	ssh.ECHO:  0,
 	// 	ssh.OCRNL: 0,
@@ -110,8 +111,6 @@ func (c *SSHConnection) Connect() error {
 
 	// c.RunCommand("ls")
 	// c.RunCommand("terminal length 0")
-	c.stdin, _ = session.StdinPipe()
-	c.stdout, _ = session.StdoutPipe()
 
 	return nil
 }
