@@ -104,8 +104,8 @@ func (c *SSHConnection) Connect() error {
 	c.session = session
 
 	c.RunCommand("uname -a")
-	c.RunCommand("show version")
-	c.RunCommand("display version")
+	// c.RunCommand("show version")
+	// c.RunCommand("display version")
 	// c.RunCommand("terminal length 0")
 
 	return nil
