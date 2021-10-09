@@ -18,10 +18,10 @@ var (
 )
 
 func init() {
-	l := []string{"source", "dest"}
+	l := []string{"src", "dest"}
 	packetLossDesc = prometheus.NewDesc(prefix+"packet_loss", "The ping packet loss rate: 0~100", l, nil)
 	rttAvgDesc = prometheus.NewDesc(prefix+"rtt_ms", "The avg rtt of the ping", l, nil)
-	pingStatusDesc = prometheus.NewDesc(prefix+"status", "Status of ping, when packet loss is 100, the status is 0. ", l, nil)
+	pingStatusDesc = prometheus.NewDesc(prefix+"status", "Status of ping, 0-down、1-up. ", l, nil)
 
 }
 

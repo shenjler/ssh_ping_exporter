@@ -103,8 +103,8 @@ func (c *SSHConnection) Connect() error {
 	session.Shell()
 	c.session = session
 
-	// c.RunCommand("ls -l")
-	// c.RunCommand("ping -c 5 baidu.com")
+	// c.RunCommand("date")
+	c.RunCommand("ping -c 5 localhost")
 	// c.RunCommand("terminal length 0")
 
 	return nil
@@ -173,7 +173,7 @@ func (c *SSHConnection) readln(ch chan result, cmd string, r io.Reader) {
 			break
 		}
 	}
-	// log.Println("--> total: " + loadStr)
+	log.Println("--> total: " + loadStr)
 	loadStr = strings.Replace(loadStr, "\r", "", -1)
 	ch <- result{output: loadStr, err: nil}
 }
