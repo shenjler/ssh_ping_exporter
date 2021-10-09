@@ -168,9 +168,9 @@ func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
 
 func findDeviceConfig(cfg *config.Config, host string) []*connector.Device {
 	targets := make([]*connector.Device, 1)
-	for i, dc := range devices {
+	for _, dc := range devices {
 		if dc.Host == host {
-			targets[i] = dc
+			targets[0] = dc
 			return targets
 		}
 	}
