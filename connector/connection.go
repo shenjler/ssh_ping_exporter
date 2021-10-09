@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"io/ioutil"
+	"log"
 	"regexp"
 	"strings"
 
@@ -84,12 +85,23 @@ func (c *SSHConnection) Connect() error {
 	}
 	c.stdin, _ = session.StdinPipe()
 	c.stdout, _ = session.StdoutPipe()
+	// modes := ssh.TerminalModes{
+	// 	ssh.ECHO:  0,
+	// 	ssh.OCRNL: 0,
+	// }
+	// session.RequestPty("vt100", 0, 2000, modes)
+
 	modes := ssh.TerminalModes{
-		ssh.ECHO:  0,
-		ssh.OCRNL: 0,
+		ssh.ECHO:          0,     // 禁用回显（0禁用，1启动）
+		ssh.TTY_OP_ISPEED: 14400, // input speed = 14.4kbaud
+		ssh.TTY_OP_OSPEED: 14400, //output speed = 14.4kbaud
 	}
-	session.RequestPty("vt100", 0, 2000, modes)
+	if err = session.RequestPty("linux", 32, 160, modes); err != nil {
+		log.Fatalf("request pty error: %s", err.Error())
+	}
+
 	session.Shell()
+
 	c.session = session
 
 	// c.RunCommand("")
