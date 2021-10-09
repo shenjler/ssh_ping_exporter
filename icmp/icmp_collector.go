@@ -15,13 +15,15 @@ var (
 	packetLossDesc *prometheus.Desc
 	pingStatusDesc *prometheus.Desc
 	rttAvgDesc     *prometheus.Desc
+	jitterDesc     *prometheus.Desc
 )
 
 func init() {
 	l := []string{"src", "dest"}
 	packetLossDesc = prometheus.NewDesc(prefix+"packet_loss", "The ping packet loss rate: 0~100", l, nil)
-	rttAvgDesc = prometheus.NewDesc(prefix+"rtt_ms", "The avg rtt of the ping", l, nil)
+	rttAvgDesc = prometheus.NewDesc(prefix+"rtt_ms", "The avg rtt of ping", l, nil)
 	pingStatusDesc = prometheus.NewDesc(prefix+"status", "Status of ping, 0-down、1-up. ", l, nil)
+	jitterDesc = prometheus.NewDesc(prefix+"jitter", "The jitter of ping, max-min rtt is jitter time, unit is ms.", l, nil)
 
 }
 
@@ -70,6 +72,7 @@ func (c *icmpCollector) CollectByDest(client *rpc.Client, ch chan<- prometheus.M
 
 	if item.PingStatus == "up" {
 		ch <- prometheus.MustNewConstMetric(rttAvgDesc, prometheus.GaugeValue, float64(item.RttAvg), l...)
+		ch <- prometheus.MustNewConstMetric(jitterDesc, prometheus.GaugeValue, float64(item.RttMax-item.RttMin), l...)
 		ch <- prometheus.MustNewConstMetric(pingStatusDesc, prometheus.GaugeValue, 1, l...)
 
 	} else {

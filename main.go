@@ -42,7 +42,7 @@ var (
 
 func init() {
 	flag.Usage = func() {
-		fmt.Println("Usage: cisco_exporter [ ... ]\n\nParameters:")
+		fmt.Println("Usage: ssh_ping_exporter [ ... ]\n\nParameters:")
 		fmt.Println()
 		flag.PrintDefaults()
 	}
@@ -147,15 +147,28 @@ func startServer() {
 func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
 
 	pingDest := r.URL.Query().Get("dest")
+	target := r.URL.Query().Get("target")
 	if pingDest == "" {
 		pingDest = *dest
 	}
 	reg := prometheus.NewRegistry()
 
-	c := newCiscoCollector(devices, pingDest)
+	targets := findDeviceConfig(cfg, target)
+	c := newCiscoCollector(targets, pingDest)
 	reg.MustRegister(c)
 
 	promhttp.HandlerFor(reg, promhttp.HandlerOpts{
 		ErrorLog:      log.NewErrorLogger(),
 		ErrorHandling: promhttp.ContinueOnError}).ServeHTTP(w, r)
+}
+
+func findDeviceConfig(cfg *config.Config, host string) []*connector.Device {
+	targets := make([]*connector.Device, 1)
+	for i, dc := range devices {
+		if dc.Host == host {
+			targets[i] = dc
+			return targets
+		}
+	}
+	return nil
 }
