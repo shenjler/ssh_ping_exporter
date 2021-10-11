@@ -3,6 +3,8 @@ package icmp
 import (
 	"log"
 
+	"math"
+
 	"github.com/shenjler/ssh_ping_exporter/rpc"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -72,7 +74,9 @@ func (c *icmpCollector) CollectByDest(client *rpc.Client, ch chan<- prometheus.M
 
 	if item.PingStatus == "up" {
 		ch <- prometheus.MustNewConstMetric(rttAvgDesc, prometheus.GaugeValue, float64(item.RttAvg), l...)
-		ch <- prometheus.MustNewConstMetric(jitterDesc, prometheus.GaugeValue, float64(item.RttMax-item.RttMin), l...)
+		jitterTime := math.Trunc(float64(item.RttMax-item.RttMin)*1e3) * 1e-3
+
+		ch <- prometheus.MustNewConstMetric(jitterDesc, prometheus.GaugeValue, jitterTime, l...)
 		ch <- prometheus.MustNewConstMetric(pingStatusDesc, prometheus.GaugeValue, 1, l...)
 
 	} else {
