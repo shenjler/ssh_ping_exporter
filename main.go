@@ -156,6 +156,11 @@ func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
 	targets := devices
 	if target != "" {
 		targets = findDeviceConfig(cfg, target)
+		if targets == nil {
+			w.WriteHeader(http.StatusForbidden)
+			w.Write([]byte("ERROR - not found target: " + target))
+			return
+		}
 	}
 
 	c := newCiscoCollector(targets, pingDest)
