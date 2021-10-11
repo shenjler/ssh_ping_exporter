@@ -2,7 +2,7 @@
 debug: true
 legacy_ciphers: false
 # default values
-timeout: 5
+timeout: 15
 batch_size: 10000
 username: default-username
 password: default-password
