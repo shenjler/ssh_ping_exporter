@@ -56,7 +56,7 @@ func (c *icmpCollector) Collect(client *rpc.Client, ch chan<- prometheus.Metric,
 
 // Collect collects metrics from Cisco
 func (c *icmpCollector) CollectByDest(client *rpc.Client, ch chan<- prometheus.Metric, labelValues []string, dest string) error {
-	out, err := client.RunCommand("ping -c 5 " + dest)
+	out, err := client.RunCommand("ping -c 3 " + dest)
 
 	if err != nil {
 		return err

@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -37,6 +40,8 @@ var (
 	configFile         = flag.String("config.file", "", "Path to config file")
 	devices            []*connector.Device
 	cfg                *config.Config
+	reloadCh           chan chan error
+	configMu           sync.RWMutex
 	dest               = flag.String("ssh.ping-dest", "baidu.com", "The target ip or domain to Ping")
 )
 
@@ -61,7 +66,42 @@ func main() {
 		log.Fatalf("could not initialize exporter. %v", err)
 	}
 
+	initChannels()
+
 	startServer()
+}
+
+func initChannels() {
+	hup := make(chan os.Signal, 1)
+	signal.Notify(hup, syscall.SIGHUP)
+
+	reloadCh = make(chan chan error)
+	go func() {
+		for {
+			select {
+			case <-hup:
+				log.Infoln("Reload signal received as SIGHUP")
+				if err := reinitialize(); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+				}
+			case rc := <-reloadCh:
+				log.Infoln("Reload signal received via POST")
+				if err := reinitialize(); err != nil {
+					log.Errorf("Error reloading config: %s", err)
+					rc <- err
+				} else {
+					rc <- nil
+				}
+			}
+		}
+	}()
+}
+
+func reinitialize() error {
+	configMu.Lock()
+	defer configMu.Unlock()
+
+	return initialize()
 }
 
 func loadConfig() (*config.Config, error) {
@@ -139,9 +179,24 @@ func startServer() {
 			</html>`))
 	})
 	http.HandleFunc(*metricsPath, handleMetricsRequest)
+	http.HandleFunc("/-/reload", updateConfiguration)
 
 	log.Infof("Listening for %s on %s\n", *metricsPath, *listenAddress)
 	log.Fatal(http.ListenAndServe(*listenAddress, nil))
+}
+
+func updateConfiguration(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "POST":
+		rc := make(chan error)
+		reloadCh <- rc
+		if err := <-rc; err != nil {
+			http.Error(w, fmt.Sprintf("failed to reload config: %s", err), http.StatusInternalServerError)
+		}
+	default:
+		log.Errorf("POST method expected")
+		http.Error(w, "POST method expected", 400)
+	}
 }
 
 func handleMetricsRequest(w http.ResponseWriter, r *http.Request) {
